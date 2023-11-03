@@ -111,6 +111,9 @@ jobs:
       # END - Docker auth and build
 
       - name: Deploy to Cloud Run
+        run:
+          gcloud config set project ${{ env.PROJECT_ID }}
+
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
         with:
