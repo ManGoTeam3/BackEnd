@@ -57,7 +57,7 @@ on:
 
 env:
   PROJECT_ID: "poetic-inkwell-401203" # TODO: update Google Cloud project id
-  GAR_LOCATION: "asia-northeast3" # TODO: update Artifact Registry location
+  GAR_LOCATION: "us-central1" # TODO: update Artifact Registry location
   SERVICE: "mangoflow" # TODO: update Cloud Run service name
   REGION: "us-central1" # TODO: update Cloud Run service region
 
