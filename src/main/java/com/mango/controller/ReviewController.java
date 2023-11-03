@@ -1,6 +1,6 @@
 package com.mango.controller;
 
-import com.mango.controller.inter.SearchController;
+import com.mango.controller.inter.ReviewController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-public class SearchControllerImpl implements SearchController {
+public class ReviewController implements ReviewController {
 }

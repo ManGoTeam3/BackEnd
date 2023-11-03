@@ -15,14 +15,11 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "User_Token")
-    private String userToken;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "User_Pw")
-    private String UserPw;
-
-    @Column(name = "User_Nick")
-    private String UserNick;
+    @Column(name = "password")
+    private String password;
 
     //mappedBy 쓸때는 지정한 변수명
     @OneToMany(mappedBy = "user")
