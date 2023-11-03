@@ -107,13 +107,11 @@ jobs:
           docker login -u oauth2accesstoken --password-stdin https://${{ env.GAR_LOCATION }}-docker.pkg.dev <<< $MY_ACCESS_TOKEN
           docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/mango:${{ github.sha }}" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/mango:${{ github.sha }}"
-
+          gcloud config set project ${{ env.PROJECT_ID }}
       # END - Docker auth and build
 
-      - name: Deploy to Cloud Run
-        run:
-          gcloud config set project ${{ env.PROJECT_ID }}
 
+      - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
         with:
