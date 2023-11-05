@@ -12,7 +12,7 @@ on:
 
 
 env:
-  PROJECT_ID: poetic-inkwell-401203 # TODO: update Google Cloud project id
+  PROJECT_ID: "poetic-inkwell-401203" # TODO: update Google Cloud project id
   GAR_LOCATION: "asia-northeast3" # TODO: update Artifact Registry location
   SERVICE: "mangohub" # TODO: update Artifact Registry service name
   DEPLOYMENT: "mangoflow" # TODO: update Cloud Run deployment name
