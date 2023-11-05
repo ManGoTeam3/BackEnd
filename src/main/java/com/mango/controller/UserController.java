@@ -1,6 +1,6 @@
 package com.mango.controller;
 
-import com.mango.controller.inter.UserControllers;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,5 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-public class UserController implements UserControllers {
+@Tag(name = "user", description = "유저 관련 API")
+public class UserController{
 }
+

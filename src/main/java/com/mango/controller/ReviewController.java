@@ -1,6 +1,6 @@
 package com.mango.controller;
 
-import com.mango.controller.inter.ReviewController;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,5 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-public class ReviewController implements ReviewController {
+@Tag(name = "Review", description = "리뷰 관련 API")
+public class ReviewController {
+    public String enrollReview() {
+        return null;
+    }
+    public String getReview() {
+        return null;
+    }
+    public String deleteReview() {
+        return null;
+    }
 }
