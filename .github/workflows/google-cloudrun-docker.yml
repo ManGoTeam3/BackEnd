@@ -76,14 +76,17 @@ jobs:
 
       # Authenticate Docker to Google Cloud Artifact Registry
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
 
       - name: Authenticate with gcloud
         run: gcloud auth login --quiet
 
       - name: Set gcloud project
         run: gcloud config set project ${{ env.PROJECT_ID }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+            project_id: ${{ env.PROJECT_ID }}
 
       - name: Docker Auth
         id: docker-auth
