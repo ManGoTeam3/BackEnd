@@ -78,12 +78,12 @@ jobs:
       # Authenticate Docker to Google Cloud Artifact Registry
 
       - name: Set gcloud project
-        run: gcloud config set project ${{ env.PROJECT_ID }}
+        run: gcloud config set project "poetic-inkwell-401203"
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
-          project_id: ${{ env.PROJECT_ID }}
+          project_id: "poetic-inkwell-401203"
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
 
      # - name: Authenticate with gcloud
