@@ -24,7 +24,7 @@ on:
       - "develop"
       - "main"
 env:
-  PROJECT_ID: ${{secrets.GCE_PROJECT}}
+  PROJECT_ID: "poetic-inkwell-401203"
   GCE_INSTANCE: "ubuntu" # TODO: update to instance name
   GCE_INSTANCE_ZONE: "us-west1-a" # TODO: update to instance zone
   GAR_LOCATION: "asia-northeast3" # TODO: update Artifact Registry location
@@ -75,8 +75,8 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           token_format: 'access_token'
-          workload_identity_provider: '${{ secrets.WIF_PROVIDER2 }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
-          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT2 }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
       # Authentication via credentials json
       # Configure Docker to use the gcloud command-line tool as a credential
