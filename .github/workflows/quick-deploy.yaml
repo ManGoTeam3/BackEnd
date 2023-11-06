@@ -22,6 +22,19 @@ jobs:
       ## Project JDK 17 Setting
       - name: Checkout
         uses: actions/checkout@v3
+
+
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            password: ${{ secrets.PASSWORD }}
+            port: ${{ secrets.PORT }}
+            timeout: 40s  # 30초 기본
+            script: |
+              echo "테스트 출력"
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -51,7 +64,8 @@ jobs:
       - name: dev Docker build & push
         if: contains(github.ref, 'main') || contains(github.ref, 'develop')
         run: |
-          echo ${{ secrets.SONG_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          SONG_TOKEN=$(echo ${{ secrets.SONG_TOKEN }})
+          docker login ghcr.io -u ${{ github.actor }} --password-stdin <<< $SONG_TOKEN
           sudo docker build -f Dockerfile -t ghcr.io/mangoteam3/backend/durian:${{ github.sha }} .
           sudo docker push ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
 
@@ -64,7 +78,7 @@ jobs:
           host: ${{ secrets.GCP_DEV_SERVER_IP }}
           username: ${{ secrets.DB_USERNAME }}
           password: ${{ secrets.DB_PASSWORD }}
-          port: 22
+          port: ${{ secrets.PORT }}
           script: |
             echo "${{ secrets.SONG_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
             if [ "$(docker ps -aq)" ]; then
