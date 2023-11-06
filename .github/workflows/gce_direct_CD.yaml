@@ -42,6 +42,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH }}
+        env:
+          spring.datasource.url: ${{ secrets.DB_HOST }}
+          spring.datasource.username: ${{ secrets.DB_USERNAME }}
+          spring.datasource.password: ${{ secrets.DB_PASSWORD }}
+
+      # Gradle의 사용권한 셋팅
+      - name: Grant Execute permission for gradlew
+        run: chmod +x gradlew
+        shell: bash
+
+      # 프로젝트 테스트 진행없이 빌드
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+        shell: bash
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER2 }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT2 }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
       # Authentication via credentials json
       - id: 'auth'
