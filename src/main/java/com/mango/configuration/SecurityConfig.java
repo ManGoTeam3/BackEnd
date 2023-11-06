@@ -41,7 +41,12 @@ public class SecurityConfig {
             "/message/**",
             "/room_name/**",
             // error
-            "/error"
+            "/error",
+            //search
+            "/api/search",
+            "/api/search/**",
+            //restaurant
+            "/api/restaurant/**",
     };
 //    private final String[] USER_ACCESS_LIST = {
 //            "/api/v1/**"

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "Review", description = "리뷰 관련 API")
 public class ReviewController {
+
     public String enrollReview() {
         return null;
     }
