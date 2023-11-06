@@ -52,8 +52,8 @@ jobs:
         if: contains(github.ref, 'main') || contains(github.ref, 'develop')
         run: |
           echo ${{ secrets.SONG_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker build -f Dockerfile -t ghcr.io/mangoteam3/backend/durian:${{ github.sha }} .
-          docker push ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
+          sudo docker build -f Dockerfile -t ghcr.io/mangoteam3/backend/durian:${{ github.sha }} .
+          sudo docker push ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
 
       # 개발서버 SSH접속 및 배포
       - name: Deploy
