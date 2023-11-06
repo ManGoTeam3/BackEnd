@@ -27,7 +27,7 @@ jobs:
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.0
         with:
-            host: ${{ secrets.HOST }}
+            host: ${{ secrets.GCP_DEV_SERVER_IP }}
             username: ${{ secrets.DB_USERNAME }}
             password: ${{ secrets.DB_USERNAME }}
             port: ${{ secrets.PORT }}
@@ -70,7 +70,7 @@ jobs:
 
       # 개발서버 SSH접속 및 배포
       - name: Deploy
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.0
         id: deploy
         if: contains(github.ref, 'main') || contains(github.ref, 'develop')
         with:
