@@ -15,13 +15,15 @@ spring:
 
   #  profiles:
   #    include: mysql
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
   sql:
     init:
       encoding: UTF-8
+
+kakao:
+  key: 3b71afcfaf0fe7f58b9e6d71ed96e5de
 
 server:
   port: 8080
