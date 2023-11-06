@@ -28,8 +28,8 @@ jobs:
         uses: appleboy/ssh-action@v0.1.4
         with:
             host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            password: ${{ secrets.PASSWORD }}
+            username: ${{ secrets.DB_USERNAME }}
+            password: ${{ secrets.DB_USERNAME }}
             port: ${{ secrets.PORT }}
             timeout: 40s  # 30초 기본
             script: |
