@@ -82,10 +82,18 @@ jobs:
       # Configure Docker to use the gcloud command-line tool as a credential
       # helper for authentication
 
-      # Setup gcloud CLI
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      - name: Set gcloud project
+        run: gcloud config set project ${{ env.PROJECT_ID }}
 
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          project_id: "poetic-inkwell-401203"
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+
+      # - name: Authenticate with gcloud
+      #   run: gcloud auth login --quiet
       - name: Docker Auth
         id: docker-auth
         uses: 'docker/login-action@v1'
