@@ -19,7 +19,10 @@ on:
     branches:
       - main
       - develop
-
+  pull_request:
+    branches:
+      - "develop"
+      - "main"
 env:
   PROJECT_ID: ${{secrets.GCE_PROJECT}}
   GCE_INSTANCE: "ubuntu" # TODO: update to instance name
