@@ -118,4 +118,4 @@ jobs:
         run: |-
           gcloud compute instances update-container "${{ env.GCE_INSTANCE}}" \
             --zone "${{env.GCE_INSTANCE_ZONE}}" \
-            --container-image "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/mango:${{ github.sha }}"
+            --container-image "asia-northeast3-docker.pkg.dev/poetic-inkwell-401203/mangohub/mango:${{ github.sha }}"
