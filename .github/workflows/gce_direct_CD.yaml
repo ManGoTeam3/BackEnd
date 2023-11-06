@@ -28,6 +28,8 @@ env:
   GCE_INSTANCE: "ubuntu" # TODO: update to instance name
   GCE_INSTANCE_ZONE: "us-west1-a" # TODO: update to instance zone
   GAR_LOCATION: "asia-northeast3" # TODO: update Artifact Registry location
+  REGION: "us-central1" # TODO: update Cloud Run service region
+
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
