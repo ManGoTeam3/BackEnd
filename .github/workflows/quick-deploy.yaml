@@ -81,8 +81,8 @@ jobs:
           script: |
             echo "${{ secrets.SONG_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
             if [ "$(docker ps -aq)" ]; then
-            sudo docker rm -f $(docker ps -aq)
+            docker rm -f $(docker ps -aq)
             fi
-            sudo docker pull ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
-            sudo docker run -d -p 8080:8080 --name durian ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
-            sudo docker image prune -f
+            docker pull ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
+            docker run -d -p 8080:8080 --name durian ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
+            docker image prune -f
