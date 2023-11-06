@@ -101,7 +101,7 @@ jobs:
           ACCESS_TOKEN=$(gcloud auth print-access-token)
           docker login -u oauth2accesstoken --password-stdin https://${{ env.REGION }}-docker.pkg.dev  <<< $ACCESS_TOKEN
           docker build -t "asia-northeast3-docker.pkg.dev/poetic-inkwell-401203/mangohub/mango:${{ github.sha }}" ./
-          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/mango:${{ github.sha }}"
+          docker push "asia-northeast3-docker.pkg.dev/poetic-inkwell-401203/mangohub/mango:${{ github.sha }}"
         # END - Docker auth and build
 
       - name: Deploy
