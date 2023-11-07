@@ -61,11 +61,8 @@ jobs:
 
       # Docker 빌드 생성 및 푸시
       - name: dev Docker build & push
-<<<<<<< HEAD
         if: contains(github.ref, 'main') || contains(github.ref, 'develop')
-=======
-        #if: contains(github.ref, 'main') || contains(github.ref, 'develop')
->>>>>>> 7b1cb31668d263ad976bda14cb120f41ffafe6cd
+
         run: |
           docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.SONG_TOKEN }}
           docker build -f Dockerfile -t ghcr.io/mangoteam3/backend/durian:${{ github.sha }} .
@@ -76,11 +73,8 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@v1.0.0
         id: deploy
-<<<<<<< HEAD
         if: contains(github.ref, 'main') || contains(github.ref, 'develop')
-=======
-        #if: contains(github.ref, 'main') || contains(github.ref, 'develop')
->>>>>>> 7b1cb31668d263ad976bda14cb120f41ffafe6cd
+
         with:
           host: ${{ secrets.GCP_DEV_SERVER_IP }}
           username: ${{ secrets.DB_USERNAME }}
