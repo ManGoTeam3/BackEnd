@@ -58,6 +58,7 @@ public class SecurityConfig {
 
     @Bean
     protected SecurityFilterChain myConfig(HttpSecurity http) throws Exception {
+
         /* 허용 페이지 등록 */
         http.authorizeHttpRequests(authorize -> authorize
 //                        .anyRequest().permitAll()
