@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://34.83.15.61:3000")
 @RequiredArgsConstructor
 @Tag(name = "Restaurant", description = "식당 관련 API")
 public class RestaurantController {

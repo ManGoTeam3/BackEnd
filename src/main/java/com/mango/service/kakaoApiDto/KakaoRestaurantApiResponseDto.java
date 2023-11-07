@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class KakaoRestaurantApiResponseDto {
-    private HashMap<String, Object> meta;
+    private Meta meta;
     private List<RestaurantDocuments> documents;
 }
 

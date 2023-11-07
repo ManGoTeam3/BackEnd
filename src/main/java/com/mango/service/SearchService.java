@@ -8,6 +8,7 @@ import com.mango.service.kakaoApiDto.RestaurantDocuments;
 import com.mango.service.kakaoApiDto.XYDto;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,23 @@ public class SearchService {
 
 
     public List searchRestaurant(String query){
+        List<RestaurantDocuments> tempList = new ArrayList<>();
+
         XYDto xyDto = kakaoApiSearchXYByAddress(query); //주소 검색어의 xy좌표 반환
-        List<RestaurantDocuments> restaurantDocuments = kakaoApiSearchRestaurantByXY(xyDto.getX(), xyDto.getY()); //xy좌표를 기준으로 반경 1km 맛집리스트(15개) 반환
-        List<SearchResponseDto> resultList = restaurantDocumentsToSearchResponseDto(restaurantDocuments); //맛집 데이터 목록에 필요한 정보만 가공 후 반환
+
+        int page = 1;
+
+        while(true){ //최대 갯수 조회. 카카오 api의 최대는 3페이지까지(45개)
+            KakaoRestaurantApiResponseDto kakaoRestaurantApiResponseDto = kakaoApiSearchRestaurantByXY(xyDto.getX(), xyDto.getY(), page);
+            tempList.addAll(kakaoRestaurantApiResponseDto.getDocuments());
+            System.out.println(kakaoRestaurantApiResponseDto.getMeta().getIs_end());
+            if(kakaoRestaurantApiResponseDto.getMeta().getIs_end().equals("true") || page==3){
+               break;
+            }
+            page ++;
+        }
+
+        List<SearchResponseDto> resultList = restaurantDocumentsToSearchResponseDto(tempList); //맛집 데이터 목록에 필요한 정보만 가공 후 반환
 
         return resultList;
     }
@@ -59,7 +74,7 @@ public class SearchService {
     }
 
     //x경도(longitude) y위도(latitude)
-    public List<RestaurantDocuments> kakaoApiSearchRestaurantByXY(double x, double y){
+    public KakaoRestaurantApiResponseDto kakaoApiSearchRestaurantByXY(double x, double y, int page){
         String url = "https://dapi.kakao.com/v2/local/search/category.json";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -71,13 +86,14 @@ public class SearchService {
             .queryParam("x", x)
             .queryParam("y", y)
             .queryParam("radius", 1000)
+            .queryParam("page", page)
             .build()
             .encode(StandardCharsets.UTF_8)
             .toUri();
 
         ResponseEntity<KakaoRestaurantApiResponseDto> result = restTemplate.exchange(targetUrl, HttpMethod.GET, httpEntity, KakaoRestaurantApiResponseDto.class);
 
-        return result.getBody().getDocuments();
+        return result.getBody();
     }
 
     public List<SearchResponseDto> restaurantDocumentsToSearchResponseDto(List<RestaurantDocuments> documents){
@@ -92,6 +108,10 @@ public class SearchService {
 
     public String splitCategoryName(String categoryName){
         String[] split = categoryName.split(">");
-        return split[1].strip();
+        if (split.length > 1){
+            return split[1].strip();
+        } else {
+            return split[0].strip();
+        }
     }
 }

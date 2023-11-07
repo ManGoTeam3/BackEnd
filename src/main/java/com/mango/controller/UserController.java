@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://34.83.15.61:3000")
 @RequiredArgsConstructor
 @Tag(name = "user", description = "유저 관련 API")
 public class UserController{

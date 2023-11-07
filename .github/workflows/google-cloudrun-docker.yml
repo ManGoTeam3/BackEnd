@@ -18,7 +18,6 @@ env:
   SERVICE: "mangohub" # TODO: update Artifact Registry service name
   DEPLOYMENT: "mangoflow" # TODO: update Cloud Run deployment name
   REGION: "us-central1" # TODO: update Cloud Run service region
-  RELEASE_NAME :
 jobs:
   deploy:
     # Add 'id-token' with the intended permissions for workload identity federation

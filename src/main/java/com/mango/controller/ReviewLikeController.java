@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://34.83.15.61:3000")
 @RequiredArgsConstructor
 @Tag(name = "ReviewLike", description = "리뷰 좋아요 관련 API")
 public class ReviewLikeController {
