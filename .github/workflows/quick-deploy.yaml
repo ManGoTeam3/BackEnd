@@ -27,12 +27,12 @@ jobs:
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.0
         with:
-            host: ${{ secrets.GCP_DEV_SERVER_IP }}
-            username: ${{ secrets.DB_USERNAME }}
-            password: ${{ secrets.DB_USERNAME }}
-            port: ${{ secrets.PORT }}
-            timeout: 40s  # 30초 기본
-            script: whoami
+          host: ${{ secrets.GCP_DEV_SERVER_IP }}
+          username: ${{ secrets.DB_USERNAME }}
+          password: ${{ secrets.DB_USERNAME }}
+          port: ${{ secrets.PORT }}
+          timeout: 40s  # 30초 기본
+          script: whoami
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -82,8 +82,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.SONG_TOKEN }}
-            if [ "$(docker ps -aq)" ]; then
-            docker rm -f $(docker ps -aq)
+            if [ "$(docker ps -aq -f name=durian)" ]; then
+            docker stop $(docker ps -aq -f name=durian)
+            docker rm -f $(docker ps -aq -f name=durian)
             fi
             docker pull ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
             docker run -d -p 8080:8080 --name durian ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
