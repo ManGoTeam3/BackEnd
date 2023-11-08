@@ -23,7 +23,6 @@ public class SearchController{
 
     @GetMapping("/api/search")
     public ResponseEntity searchRestaurant(@RequestParam String query){
-        System.out.println("working done");
         List restaurantList = searchService.searchRestaurant(query);
         return ResponseEntity.status(HttpStatus.OK).body(restaurantList);
     }

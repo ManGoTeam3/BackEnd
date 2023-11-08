@@ -28,18 +28,14 @@ public class User implements UserDetails {
     private List<ReviewLike> reviewLikeList;
 
     @OneToMany(mappedBy = "user")
-    private List<Restaurant> restaurantList;
-
-    @OneToMany(mappedBy = "user")
     private List<SearchLog> searchLogList;
 
     @Builder
-    public User(Long id, String username, String password, List<ReviewLike> reviewLikeList, List<Restaurant> restaurantList, List<SearchLog> searchLogList) {
+    public User(Long id, String username, String password, List<ReviewLike> reviewLikeList, List<SearchLog> searchLogList) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.reviewLikeList = reviewLikeList;
-        this.restaurantList = restaurantList;
         this.searchLogList = searchLogList;
     }
 
