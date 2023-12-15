@@ -49,7 +49,7 @@ jobs:
           spring.datasource.username: ${{ secrets.DB_USERNAME }}
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
           spring.auth.clientId: ${{ secrets.AUTH_RESTAPI_KEY }}
-
+          spring.cloud.gcp.storage.credentials.encoded-key: ${{ secrets.GCP_CREDENTIALS }}
       # Gradle의 사용권한 셋팅
       - name: Grant Execute permission for gradlew
         run: chmod +x gradlew

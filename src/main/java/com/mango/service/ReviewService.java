@@ -2,6 +2,7 @@ package com.mango.service;
 
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.mango.dto.GetAllReviewDto;
 import com.mango.dto.ReviewDto;
 import com.mango.entity.Restaurant;
@@ -28,17 +29,20 @@ import java.util.stream.Collectors;
 @Transactional
 public class ReviewService {
 
+
     private final ReviewRepository reviewRepository;
     private final ReviewPictureRepository reviewPictureRepository;
     private final RestaurantRepository restaurantRepository;
     private String baseurl = "https://storage.googleapis.com/durian-storage/";
-    private Storage storage;
+    private final Storage storage ;
 
     // 버킷이름 따로 properties에 저장했음
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
 
+
     public ResponseEntity enrollReview(Long restaurantId ,ReviewDto reviewDto) throws IOException {
+
         //restaurantId로 restaurant 찾기
         long reviewId = 0L;
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
@@ -85,7 +89,7 @@ public class ReviewService {
             throw new RuntimeException("리뷰 등록에 실패했습니다.");
         }
 
-        return ResponseEntity.ok().body("리뷰 등록에 성공했습니다.");
+        return ResponseEntity.ok().body("success");
 
     }
 

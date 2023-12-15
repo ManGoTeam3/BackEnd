@@ -5,6 +5,7 @@ import com.mango.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,12 +20,12 @@ import java.io.IOException;
 public class ReviewController {
 
     private final ReviewService reviewService;
-    @PostMapping("/review/{restaurantId}")
+    @PostMapping(value = "/review/{restaurantId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "리뷰 등록",
             description = "form-data 로 보내야 함. " +
                     "ReviewDto : {'score' : 'true or false', 'reviewContents':'리뷰내용'} " +
                     "reviewPic : (이미지파일)")
-    public ResponseEntity enrollReview(@PathVariable Long restaurantId, @RequestPart(required = false) MultipartFile image,@RequestPart("ReviewDto") ReviewDto reviewDto) throws IOException {
+    public ResponseEntity enrollReview(@PathVariable Long restaurantId, @RequestPart(required = false, value = "reviewPic") MultipartFile image,@RequestPart("ReviewDto") ReviewDto reviewDto) throws IOException {
         reviewDto.setReviewPic(image);
         return reviewService.enrollReview(restaurantId,reviewDto);
     }
