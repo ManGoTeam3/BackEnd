@@ -36,6 +36,7 @@ spring:
         auto-create-files: true
         credentials:
           #encoded-key: ${ENCODED_KEY} #보안이슈로 json 파일 base62 인코딩
+
           location: poetic-inkwell-401203-8aa220d61f5f.json
           #location: "${GCP_CREDENTIALS}"
 
@@ -73,3 +74,4 @@ jwt:
 #      enabled: true
 #  cache:
 #    disabled: true
+
