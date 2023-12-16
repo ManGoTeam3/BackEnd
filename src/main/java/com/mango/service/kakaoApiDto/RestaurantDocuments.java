@@ -28,12 +28,6 @@ public class RestaurantDocuments {
     public Restaurant documentsToEntity(){
         return Restaurant.builder()
             .id(this.id)
-            .address_name(this.address_name)
-            .road_address_name(this.road_address_name)
-            .category_name(this.category_name)
-            .phone(this.phone)
-            .place_name(this.place_name)
-            .place_url(this.place_url)
             .x(this.x)
             .y(this.y)
             .build();

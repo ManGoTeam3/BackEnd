@@ -1,7 +1,8 @@
 package com.mango.service;
 
+import com.mango.entity.Restaurant;
 import com.mango.repository.RestaurantRepository;
-import com.mango.service.dto.SearchResponseDto;
+import com.mango.service.responsedto.SearchResponseDto;
 import com.mango.service.kakaoApiDto.KakaoRestaurantApiResponseDto;
 import com.mango.service.kakaoApiDto.AddressDocuments;
 import com.mango.service.kakaoApiDto.KakaoAddressApiResponseDto;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,6 +29,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SearchService {
 
     private final RestaurantRepository restaurantRepository;
+    private final AsyncSearchService asyncSearchService;
 
     @Value("${kakao.key}")
     private String key;
@@ -59,7 +62,9 @@ public class SearchService {
 
         ResponseEntity<KakaoAddressApiResponseDto> result = restTemplate.exchange(targetUrl,
             HttpMethod.GET, httpEntity, KakaoAddressApiResponseDto.class);
+
         AddressDocuments searchResult = result.getBody().getDocuments().get(0);
+
         return XYDto.builder()
             .x(searchResult.getX())
             .y(searchResult.getY())
@@ -88,13 +93,12 @@ public class SearchService {
         ResponseEntity<KakaoRestaurantApiResponseDto> result = restTemplate.exchange(targetUrl,
             HttpMethod.GET, httpEntity, KakaoRestaurantApiResponseDto.class);
 
-//        saveRestaurantToDB(result.getBody().getDocuments());
+        asyncSearchService.saveRestaurantToDB(result.getBody().getDocuments());
 
         return result.getBody();
     }
 
-    public List<RestaurantDocuments> kakaoApiSearchRestaurantMax(List<RestaurantDocuments> tempList,
-        XYDto xyDto) {
+    public List<RestaurantDocuments> kakaoApiSearchRestaurantMax(List<RestaurantDocuments> tempList, XYDto xyDto) {
 
         int page = 1;
 
@@ -111,8 +115,7 @@ public class SearchService {
         return tempList;
     }
 
-    public List<SearchResponseDto> restaurantDocumentsToSearchResponseDto(
-        List<RestaurantDocuments> documents) {
+    public List<SearchResponseDto> restaurantDocumentsToSearchResponseDto(List<RestaurantDocuments> documents) {
         return documents.stream()
             .map(r -> SearchResponseDto.builder()
                 .id(r.getId())
@@ -125,19 +128,6 @@ public class SearchService {
             .collect(Collectors.toList());
     }
 
-  /*  //추후에 하나씩 추가할 일이 있을 경우 이 메서드 restaurant 하나만 받고
-    //위 kakaoapixy메서드에서 반복문으로 리스트 안 restaurant에 하나하나씩 호출
-    @Async //이거 db다 저장하려니 속도 성능문제가 너무 커서 비동기로 해야할 수도
-    public void saveRestaurantToDB(List<RestaurantDocuments> restaurantDocuments) {
-
-        for (RestaurantDocuments documents : restaurantDocuments) {
-            Optional<Restaurant> byId = restaurantRepository.findById(documents.getId());
-            if (!byId.isPresent()) {
-                restaurantRepository.save(documents.documentsToEntity());
-            }
-        }
-    }
-*/
     public String splitCategoryName(String categoryName) {
         String[] split = categoryName.split(">");
         if (split.length > 1) {
