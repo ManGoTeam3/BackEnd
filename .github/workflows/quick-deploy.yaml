@@ -82,7 +82,7 @@ jobs:
           password: ${{ secrets.DB_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.SONG_TOKEN }}
+            docker login ghcr.io -u pinetree2 -p ${{ secrets.SONG_TOKEN }}
             if [ "$(docker ps -aq -f name=durian)" ]; then
             docker stop $(docker ps -aq -f name=durian)
             docker rm -f $(docker ps -aq -f name=durian)
