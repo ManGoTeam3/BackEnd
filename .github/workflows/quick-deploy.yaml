@@ -41,8 +41,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Set encoded key as file
-        run: echo ${{ secrets.ENCODED_KEY }} | base64 --decode > credential.json
-        shell: bash
+        run: echo -n ${{ secrets.ENCODED_KEY }} | base64 -d > key.json
 
       - name: Set yml file
         uses: microsoft/variable-substitution@v1
@@ -53,6 +52,7 @@ jobs:
           spring.datasource.username: ${{ secrets.DB_USERNAME }}
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
           spring.auth.clientId: ${{ secrets.AUTH_RESTAPI_KEY }}
+          spring.server.ip : ${{ secrets.SERVER_IP }}
           #spring.cloud.gcp.storage.credentials.encoded-key: ${{ secrets.GCP_CREDENTIALS }}
           spring.cloud.gcp.storage.credentials.location: file://$(pwd)/credential.json
 
