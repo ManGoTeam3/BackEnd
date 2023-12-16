@@ -103,15 +103,9 @@ public class ReviewService {
                 () -> new IllegalArgumentException("해당 식당이 없습니다.")
         );
         //restaurantId로 review 존재하는지 확인
-        Optional<Review> reviewOptional = reviewRepository.findByRestaurantId(restaurantId);
-
-        //restaurantId로 review 가져오기
-
-
-        if (reviewOptional.isPresent()) {
+        List<Review> reviewList = reviewRepository.findAllByRestaurantId(restaurantId);
+        if (!reviewList.isEmpty()) {
             //restaurantId로 review 가져오기
-            List<Review> reviewList = reviewRepository.findAllByRestaurantId(restaurantId);
-
             //reviewList -> GetAllReviewDto로 변환하기
             List<GetAllReviewDto> getAllReviewDtoList = reviewList.stream()
                     .flatMap(review -> review.getReviewPictures().stream()
@@ -159,8 +153,10 @@ public class ReviewService {
         );
 
         Optional<ReviewPicture> reviewPicture = reviewPictureRepository.findByReviewId(reviewId);
-        if (reviewPicture.isPresent()) {
+
+        if (reviewPicture.isPresent()){
             List<ReviewPicture> reviewPictures = reviewPictureRepository.findAllByReviewId(reviewId);
+
             //삭제
             reviewPictureRepository.deleteAll(reviewPictures);
             reviewRepository.delete(review);
