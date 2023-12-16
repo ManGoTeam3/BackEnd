@@ -1,5 +1,7 @@
 package com.mango.configuration;
 
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.mango.jwt.JwtFilter;
 import com.mango.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -86,4 +88,5 @@ public class SecurityConfig {
         http.addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
 }
