@@ -1,4 +1,4 @@
-package com.mango.service.dto;
+package com.mango.service.responsedto;
 
 import lombok.Getter;
 import lombok.Builder;
