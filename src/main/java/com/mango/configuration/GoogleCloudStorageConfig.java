@@ -25,14 +25,6 @@ public class GoogleCloudStorageConfig {
     @Bean
     public Storage storage() throws IOException {
 
-        //ClassPathResource resource = new ClassPathResource(location);
-        Resource resource;
-        // 환경에 따라 ClassPathResource 또는 FileSystemResource 선택
-        if (location.startsWith("poetic-inkwell-401203-")) {
-            resource = new ClassPathResource(location);
-        } else {
-            resource = new FileSystemResource(location);
-        }
 
         GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
         String projectId = "poetic-inkwell-401203";
