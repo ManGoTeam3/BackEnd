@@ -32,6 +32,7 @@ spring:
         credentials:
           #encoded-key: ${ENCODED_KEY} #보안이슈로 json 파일 base62 인코딩
           location: "${GCP_CREDENTIALS}"
+
         bucket: durian-storage
 
 
