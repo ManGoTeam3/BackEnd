@@ -14,21 +14,14 @@ import java.util.Base64;
 
 @Configuration
 public class GoogleCloudStorageConfig {
-    @Value("${spring.cloud.gcp.storage.credentials.encoded-key}")
-    private String encodedKey;
+
 
     @Value("${spring.cloud.gcp.storage.credentials.location}")
     private String location;
 
     @Bean
     public Storage storage() throws IOException {
-        //byte[]  decodedKey = Base64.getDecoder().decode(encodedKey);
-        // URL-safe Base64에서 + 대신에 -를, / 대신에 _를 사용하도록 변환
-        //String base64Key = encodedKey.replace('-', '+').replace('_', '/');
-        // URL-safe Base64를 일반 Base64로 변환
-        //byte[] decodedKey = Base64.getDecoder().decode(base64Key.getBytes(StandardCharsets.UTF_8));
-        //ClassPathResource resource = new ClassPathResource("poetic-inkwell-401203-8aa220d61f5f.json");
-        //GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(decodedKey));
+
         ClassPathResource resource = new ClassPathResource(location);
 
         GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
@@ -40,3 +33,15 @@ public class GoogleCloudStorageConfig {
                 .getService();
     }
 }
+
+/**
+ *     //@Value("${spring.cloud.gcp.storage.credentials.encoded-key}")
+ *     //private String encodedKey;
+ * //byte[]  decodedKey = Base64.getDecoder().decode(encodedKey);
+ *         // URL-safe Base64에서 + 대신에 -를, / 대신에 _를 사용하도록 변환
+ *         //String base64Key = encodedKey.replace('-', '+').replace('_', '/');
+ *         // URL-safe Base64를 일반 Base64로 변환
+ *         //byte[] decodedKey = Base64.getDecoder().decode(base64Key.getBytes(StandardCharsets.UTF_8));
+ *         //ClassPathResource resource = new ClassPathResource("poetic-inkwell-401203-8aa220d61f5f.json");
+ *         //GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(decodedKey));
+* */
