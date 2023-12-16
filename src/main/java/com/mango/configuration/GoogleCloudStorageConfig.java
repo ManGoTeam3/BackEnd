@@ -17,6 +17,9 @@ import java.util.Base64;
 public class GoogleCloudStorageConfig {
     @Value("${spring.cloud.gcp.storage.credentials.encoded-key}")
     private String encodedKey;
+
+    @Value("${spring.cloud.gcp.storage.credentials.location}")
+    private String location;
     @Bean
     public Storage storage() throws IOException {
         //byte[]  decodedKey = Base64.getDecoder().decode(encodedKey);
@@ -26,7 +29,7 @@ public class GoogleCloudStorageConfig {
         //byte[] decodedKey = Base64.getDecoder().decode(base64Key.getBytes(StandardCharsets.UTF_8));
         //ClassPathResource resource = new ClassPathResource("poetic-inkwell-401203-8aa220d61f5f.json");
         //GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(decodedKey));
-        ClassPathResource resource = new ClassPathResource("poetic-inkwell-401203-8aa220d61f5f.json");
+        ClassPathResource resource = new ClassPathResource(location);
         GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
         String projectId = "poetic-inkwell-401203";
         return StorageOptions.newBuilder()
