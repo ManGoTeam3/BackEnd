@@ -87,8 +87,8 @@ jobs:
           script: |
             docker login ghcr.io -u pinetree2 -p ${{ secrets.SONG_TOKEN }}
             if [ "$(docker ps -aq -f name=durian)" ]; then
-            docker stop $(docker ps -aq -f name=durian)
-            docker rm -f $(docker ps -aq -f name=durian)
+            docker stop durian
+            docker rm -f durian
             fi
             docker pull ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
             docker run -d -p 8080:8080 --name durian ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
