@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
 @EnableWebMvc // Swagger를 위해 추가
-//@EnableAsync
+@EnableAsync
 public class MangoApplication {
 
     public static void main(String[] args) {

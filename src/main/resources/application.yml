@@ -12,6 +12,11 @@ spring:
     properties: # property 사용 설정
       hibernate: # hibernate property 설정
         format_sql: true
+        jdbc:
+          batch_size: 50
+  server:
+    ip: ${SERVER_IP}
+
 
   #  profiles:
   #  include: mysql
@@ -31,8 +36,9 @@ spring:
         auto-create-files: true
         credentials:
           #encoded-key: ${ENCODED_KEY} #보안이슈로 json 파일 base62 인코딩
-          #location: poetic-inkwell-401203-8aa220d61f5f.json
-          location: ${GCP_CREDENTIALS_LOCATION}
+
+          location: poetic-inkwell-401203-8aa220d61f5f.json
+          #location: "${GCP_CREDENTIALS}"
 
         bucket: durian-storage
 
@@ -68,4 +74,3 @@ jwt:
 #      enabled: true
 #  cache:
 #    disabled: true
-
