@@ -1,5 +1,6 @@
 package com.mango.controller;
 
+import com.mango.dto.UserInfoDto;
 import com.mango.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,20 +29,22 @@ import java.util.Objects;
 @Tag(name = "OAuth", description = "OAuth 관련 API")
 @RequestMapping("/auth")
 public class OAuthController {
+
     private final WebClient webClient;
     private final UserService userService;
 
     @Value("${spring.auth.clientId}")
     private String clientId;
+    @Value("${spring.server.ip}")
+    private String IP;
 
     @Operation(summary = "카카오 로그인창으로 redirect")
     @GetMapping("/kakao/login")
     public ResponseEntity<?> authorize() {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(URI.create(String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=http://localhost:8080/auth/kakao/callback", clientId)));
+        httpHeaders.setLocation(URI.create(String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=http://%s:8080/auth/kakao/callback", clientId,IP)));
         return new ResponseEntity<>(httpHeaders, HttpStatus.MOVED_PERMANENTLY);
     }
-
     @Operation(summary = "카카오 로그인 callback url")
     @GetMapping(("/kakao/callback"))
     public ResponseEntity<?> callback(@RequestParam String code) {
@@ -49,7 +52,7 @@ public class OAuthController {
                 .uri("https://kauth.kakao.com/oauth/token")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=utf-8")
                 .header("")
-                .bodyValue(String.format("grant_type=authorization_code&client_id=%s&redirect_uri=http://localhost:8080/auth/kakao/callback&code=" + code, clientId))
+                .bodyValue(String.format("grant_type=authorization_code&client_id=%s&redirect_uri=http://%s:8080/auth/kakao/callback&code=" + code, clientId, IP))
                 .retrieve()
                 .bodyToMono(Map.class)
                 .block();
@@ -62,18 +65,22 @@ public class OAuthController {
                 .retrieve()
                 .bodyToMono(Map.class)
                 .block();
+
+
         System.out.println(userInfo);
         String id = userInfo.get("id").toString();
-//        String name = ((Map<String, String>)userInfo.get("profile")).get("nickname");
-//        String profile = ((Map<String, String>)userInfo.get("profile")).get("profile_image_url");
+        Map<String , ?> kakaoAccount = (Map<String, ?>) userInfo.get("kakao_account");
+        Map<String , String> profile = (Map<String, String>) kakaoAccount.get("profile");
+        String name = profile.get("nickname");
+        System.out.println("name : " + name);
 
         System.out.println("id : " + id);
-//        System.out.println("name : " + name);
+        System.out.println("name : " + name);
 //        System.out.println("profile : " + profile);
-        String token = userService.serviceLogin(id);
+
+
+        UserInfoDto token = userService.serviceLogin(userInfo);
         return ResponseEntity.ok(token);
     }
-
-
 
 }
