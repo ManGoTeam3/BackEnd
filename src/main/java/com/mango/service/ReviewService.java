@@ -91,7 +91,9 @@ public class ReviewService {
             throw new RuntimeException("리뷰 등록에 실패했습니다.");
         }
 
-        return ResponseEntity.ok().body("success");
+
+        return ResponseEntity.ok().contentType(new MediaType("text", "plain", StandardCharsets.UTF_8)).body("리뷰 등록 성공");
+
 
     }
 
@@ -103,11 +105,12 @@ public class ReviewService {
         //restaurantId로 review 존재하는지 확인
         Optional<Review> reviewOptional = reviewRepository.findByRestaurantId(restaurantId);
 
+        //restaurantId로 review 가져오기
+
 
         if (reviewOptional.isPresent()) {
             //restaurantId로 review 가져오기
             List<Review> reviewList = reviewRepository.findAllByRestaurantId(restaurantId);
-
 
             //reviewList -> GetAllReviewDto로 변환하기
             List<GetAllReviewDto> getAllReviewDtoList = reviewList.stream()
@@ -126,9 +129,9 @@ public class ReviewService {
 
             return ResponseEntity.ok(getAllReviewDtoList);
         } else {
+
             return ResponseEntity.ok().body("해당 식당의 리뷰가 없습니다.");
         }
-
     }
 
     public ResponseEntity getReviewDetail(Long reviewId) {
@@ -154,6 +157,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId).orElseThrow(
                 () -> new IllegalStateException("리뷰가 존재하지 않습니다.")
         );
+
         Optional<ReviewPicture> reviewPicture = reviewPictureRepository.findByReviewId(reviewId);
         if (reviewPicture.isPresent()) {
             List<ReviewPicture> reviewPictures = reviewPictureRepository.findAllByReviewId(reviewId);
@@ -165,8 +169,6 @@ public class ReviewService {
             //존재하지 않음
             return ResponseEntity.ok().contentType(new MediaType("text", "plain", StandardCharsets.UTF_8)).body("리뷰가 존재하지 않습니다.");
         }
-
-
 
     }
 
