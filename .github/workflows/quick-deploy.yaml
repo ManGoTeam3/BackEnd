@@ -40,6 +40,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Set encoded key as file
+        run: echo -n ${{ secrets.ENCODED_KEY }} | base64 -d > key.json
+
       - name: Set yml file
         uses: microsoft/variable-substitution@v1
         with:
@@ -48,6 +51,9 @@ jobs:
           spring.datasource.url: ${{ secrets.DB_HOST }}
           spring.datasource.username: ${{ secrets.DB_USERNAME }}
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
+          spring.auth.clientId: ${{ secrets.AUTH_RESTAPI_KEY }}
+          #spring.cloud.gcp.storage.credentials.encoded-key: ${{ secrets.GCP_CREDENTIALS }}
+          spring.cloud.gcp.storage.credentials.location: file://$(pwd)/credential.json
 
       # Gradle의 사용권한 셋팅
       - name: Grant Execute permission for gradlew
@@ -64,7 +70,7 @@ jobs:
         if: contains(github.ref, 'main') || contains(github.ref, 'develop')
 
         run: |
-          docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.SONG_TOKEN }}
+          docker login ghcr.io -u pinetree2 -p ${{ secrets.SONG_TOKEN }}
           docker build -f Dockerfile -t ghcr.io/mangoteam3/backend/durian:${{ github.sha }} .
           docker push ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
           echo "완료"
@@ -81,7 +87,7 @@ jobs:
           password: ${{ secrets.DB_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.SONG_TOKEN }}
+            docker login ghcr.io -u pinetree2 -p ${{ secrets.SONG_TOKEN }}
             if [ "$(docker ps -aq -f name=durian)" ]; then
             docker stop $(docker ps -aq -f name=durian)
             docker rm -f $(docker ps -aq -f name=durian)
@@ -89,3 +95,5 @@ jobs:
             docker pull ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
             docker run -d -p 8080:8080 --name durian ghcr.io/mangoteam3/backend/durian:${{ github.sha }}
             docker image prune -f
+            
+

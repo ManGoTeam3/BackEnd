@@ -1,5 +1,7 @@
 package com.mango.configuration;
 
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.mango.jwt.JwtFilter;
 import com.mango.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +86,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable); // csrf 비활성화
 
         http.addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
+
 }

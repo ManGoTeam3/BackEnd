@@ -5,7 +5,6 @@ build/generated
 build/resources
 build/tmp
 build/resolvedMainClassName
-
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -30,13 +29,15 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
+**/src/main/resources/poetic-inkwell-401203-8aa220d61f5f.json
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
+
+*.yml
 
 ### VS Code ###
 .vscode/

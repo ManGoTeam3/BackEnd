@@ -50,23 +50,23 @@ public class JwtTokenProvider {
                 // signature 에 들어갈 secret값 세팅
                 .compact();
     }
-    //    // JWT 토큰에서 인증 정보 조회
+    // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getId(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    //    // 토큰에서 회원 정보 추출
+    // 토큰에서 회원 정보 추출
     public String getId(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody().getSubject();
     }
-    //
-//    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
+
+    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
 
-    //    // 토큰의 유효성 + 만료일자 확인
+    // 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String token) {
         if (token == null || !token.contains("Bearer ")) {
             return false;
