@@ -52,6 +52,7 @@ jobs:
           spring.datasource.username: ${{ secrets.DB_USERNAME }}
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
           spring.auth.clientId: ${{ secrets.AUTH_RESTAPI_KEY }}
+          spring.server.ip : ${{ secrets.SERVER_IP }}
           #spring.cloud.gcp.storage.credentials.encoded-key: ${{ secrets.GCP_CREDENTIALS }}
           spring.cloud.gcp.storage.credentials.location: file://$(pwd)/credential.json
 
