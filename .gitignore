@@ -8,7 +8,6 @@ build/resolvedMainClassName
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-resources/poetic-inkwell-401203-8aa220d61f5f.json
 
 ### STS ###
 .apt_generated
