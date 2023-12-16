@@ -54,6 +54,7 @@ jobs:
           spring.auth.clientId: ${{ secrets.AUTH_RESTAPI_KEY }}
           #spring.cloud.gcp.storage.credentials.encoded-key: ${{ secrets.GCP_CREDENTIALS }}
           spring.cloud.gcp.storage.credentials.location: file://$(pwd)/credential.json
+
       # Gradle의 사용권한 셋팅
       - name: Grant Execute permission for gradlew
         run: chmod +x gradlew
@@ -86,7 +87,7 @@ jobs:
           password: ${{ secrets.DB_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.SONG_TOKEN }}
+            docker login ghcr.io -u pinetree2 -p ${{ secrets.SONG_TOKEN }}
             if [ "$(docker ps -aq -f name=durian)" ]; then
             docker stop $(docker ps -aq -f name=durian)
             docker rm -f $(docker ps -aq -f name=durian)
