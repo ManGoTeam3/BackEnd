@@ -29,7 +29,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-
+**/src/main/resources/poetic-inkwell-401203-8aa220d61f5f.json
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
