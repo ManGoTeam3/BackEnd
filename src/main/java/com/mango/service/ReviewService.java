@@ -14,10 +14,12 @@ import com.mango.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +91,7 @@ public class ReviewService {
             throw new RuntimeException("리뷰 등록에 실패했습니다.");
         }
 
-        return ResponseEntity.ok().body("success");
+        return ResponseEntity.ok().contentType(new MediaType("text", "plain", StandardCharsets.UTF_8)).body("리뷰 등록 성공");
 
     }
 
@@ -98,28 +100,32 @@ public class ReviewService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
                 () -> new IllegalArgumentException("해당 식당이 없습니다.")
         );
+        //restaurantId로 review 존재하는지 확인
+        Optional<Review> reviewOptional = reviewRepository.findByRestaurantId(restaurantId);
         //restaurantId로 review 가져오기
-        List<Review> reviewList = (List<Review>) reviewRepository.findById(restaurantId).orElseThrow(
-                () -> new IllegalStateException("리뷰를 찾을 수 없습니다."));
+        if (reviewOptional.isPresent()) {
+            //restaurantId로 review 가져오기
+            List<Review> reviewList = reviewRepository.findAllByRestaurantId(restaurantId);
 
+            //reviewList -> GetAllReviewDto로 변환하기
+            List<GetAllReviewDto> getAllReviewDtoList = reviewList.stream()
+                    .flatMap(review -> review.getReviewPictures().stream()
+                            .map(reviewPicture -> GetAllReviewDto.builder()
+                                    .reviewId(review.getId())
+                                    .restaurantId(review.getRestaurant().getId())
+                                    .score(review.getScore())
+                                    .reviewContents(review.getReviewContents())
+                                    .reviewPicUrl(Collections.singletonList(reviewPicture.getReviewPicUrl()))
+                                    .build()
 
-        //reviewList -> GetAllReviewDto로 변환하기
-        List<GetAllReviewDto> getAllReviewDtoList = reviewList.stream()
-                .flatMap(review -> review.getReviewPictures().stream()
-                        .map(reviewPicture -> GetAllReviewDto.builder()
-                                .reviewId(review.getId())
-                                .restaurantId(review.getRestaurant().getId())
-                                .score(review.getScore())
-                                .reviewContents(review.getReviewContents())
-                                .reviewPicUrl(Collections.singletonList(reviewPicture.getReviewPicUrl()))
-                                .build()
+                            )
+                    )
+                    .collect(Collectors.toList());
 
-                        )
-                )
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(getAllReviewDtoList);
-
+            return ResponseEntity.ok(getAllReviewDtoList);
+        } else {
+            return ResponseEntity.ok("해당 식당의 리뷰가 없습니다.");
+        }
     }
 
     public ResponseEntity getReviewDetail(Long reviewId) {
@@ -146,14 +152,19 @@ public class ReviewService {
                 () -> new IllegalStateException("리뷰가 존재하지 않습니다.")
         );
 
-        List<ReviewPicture> reviewPictures = (List<ReviewPicture>) reviewPictureRepository.findById(reviewId).orElseThrow(
-                () -> new IllegalStateException("리뷰 사진이 존재하지 않습니다.")
-        );
+        Optional<ReviewPicture> reviewPicture = reviewPictureRepository.findByReviewId(reviewId);
+        if (reviewPicture.isPresent()) {
+            List<ReviewPicture> reviewPictures = reviewPictureRepository.findAllByReviewId(reviewId);
+            //삭제
+            reviewPictureRepository.deleteAll(reviewPictures);
+            reviewRepository.delete(review);
+            return ResponseEntity.ok().contentType(new MediaType("text", "plain", StandardCharsets.UTF_8)).body("리뷰 삭제가 완료되었습니다.");
+        }else{
+            //존재하지 않음
+            return ResponseEntity.ok().contentType(new MediaType("text", "plain", StandardCharsets.UTF_8)).body("리뷰가 존재하지 않습니다.");
+        }
 
         //삭제
-        reviewPictureRepository.deleteAll(reviewPictures);
-        reviewRepository.delete(review);
-        return ResponseEntity.ok().body("리뷰가 삭제되었습니다.");
     }
 
 }

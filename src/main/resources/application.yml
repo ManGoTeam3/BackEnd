@@ -30,8 +30,9 @@ spring:
         project-id: poetic-inkwell-401203
         auto-create-files: true
         credentials:
-          encoded-key: ${ENCODED_KEY} #보안이슈로 json 파일 base62 인코딩
-        #location: classpath:poetic-inkwell-401203-8aa220d61f5f.json
+          #encoded-key: ${ENCODED_KEY} #보안이슈로 json 파일 base62 인코딩
+          #location: classpath:poetic-inkwell-401203-8aa220d61f5f.json
+            location: "${GCP_CREDENTIALS}"
         bucket: durian-storage
 
 
