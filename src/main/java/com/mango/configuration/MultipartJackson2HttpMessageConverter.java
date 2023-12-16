@@ -6,21 +6,15 @@ import org.springframework.http.converter.json.AbstractJackson2HttpMessageConver
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
-import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Type;
 
 @Component
 public class MultipartJackson2HttpMessageConverter extends AbstractJackson2HttpMessageConverter {
 
     /**
-     * Converter for support http request with header Content-Type: multipart/form-data
+     * "Content-Type: multipart/form-data" 헤더를 지원하는 HTTP 요청 변환기
      */
     public MultipartJackson2HttpMessageConverter(ObjectMapper objectMapper) {
-        super(objectMapper, MediaType.MULTIPART_FORM_DATA);
+        super(objectMapper, MediaType.APPLICATION_OCTET_STREAM);
     }
 
     @Override
