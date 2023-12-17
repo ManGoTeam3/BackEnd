@@ -65,7 +65,7 @@ public class ReviewService {
         );
 
         Review review = Review.builder()
-                .score(reviewDto.isScore())
+                .score(reviewDto.getScore())
                 .restaurant(restaurant)
                 .reviewContents(reviewDto.getReviewContents())
                 .build();

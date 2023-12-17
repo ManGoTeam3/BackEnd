@@ -21,7 +21,7 @@ public class Review {
     private Restaurant restaurant;
 
     @Column(name = "Score")
-    private Boolean score;
+    private int score;
 
     @Column(name = "Review_Contents")
     private String reviewContents;
