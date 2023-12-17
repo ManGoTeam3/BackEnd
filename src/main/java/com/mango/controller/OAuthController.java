@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@CrossOrigin("http://34.83.15.61:3000")
+@CrossOrigin("http://3.217.20.163:3000")
 @RequiredArgsConstructor
 @Tag(name = "OAuth", description = "OAuth 관련 API")
 @RequestMapping("/auth")

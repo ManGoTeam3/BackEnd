@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("http://34.83.15.61:3000")
+@CrossOrigin("http://3.217.20.163:3000")
 @RequiredArgsConstructor
 @RequestMapping("/api/restaurants")
 @Tag(name = "Restaurant", description = "식당 관련 API")
