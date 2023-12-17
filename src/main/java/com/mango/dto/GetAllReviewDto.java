@@ -15,7 +15,7 @@ import java.util.List;
 public class GetAllReviewDto {
     private Long reviewId;
     private Long restaurantId;
-    private Boolean score;
+    private int score;
     private String reviewContents;
     private List<String> reviewPicUrl;
 }
