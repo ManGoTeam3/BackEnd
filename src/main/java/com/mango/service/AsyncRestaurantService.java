@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AsyncSearchService {
+public class AsyncRestaurantService {
+
     private final RestaurantRepository restaurantRepository;
 
-    @Async //이거 db다 저장하려니 속도 성능문제가 너무 커서 비동기로 해야할 수도
+    @Async
     public void saveRestaurantToDB(List<RestaurantDocuments> restaurantDocuments) {
 
         List<Restaurant> restaurantList = restaurantDocuments.stream()
@@ -22,6 +23,6 @@ public class AsyncSearchService {
             .collect(Collectors.toList());
 
         restaurantRepository.saveAll(restaurantList);
-//        restaurantDocuments.forEach(d -> restaurantRepository.save(d.documentsToEntity()));
     }
+
 }
