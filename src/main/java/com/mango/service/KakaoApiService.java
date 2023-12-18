@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class KakaoApiService {
 
-    private final RestaurantService restaurantService;
+    private final AsyncRestaurantService restaurantService;
 
     @Value("${kakao.key}")
     private String key;
@@ -29,15 +29,10 @@ public class KakaoApiService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authorization", "KakaoAK " + key);
         HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
-        URI targetUrl = UriComponentsBuilder
-            .fromUriString(url)
-            .queryParam("category_group_code", "FD6")
-            .queryParam("query", query)
-            .queryParam("radius", 1000)
-            .queryParam("page", page)
-            .build()
-            .encode(StandardCharsets.UTF_8)
-            .toUri();
+        URI targetUrl = UriComponentsBuilder.fromUriString(url)
+            .queryParam("category_group_code", "FD6").queryParam("query", query)
+            .queryParam("radius", 1000).queryParam("page", page).build()
+            .encode(StandardCharsets.UTF_8).toUri();
 
         ResponseEntity<KakaoApiResponseDto> result = restTemplate.exchange(targetUrl,
             HttpMethod.GET, httpEntity, KakaoApiResponseDto.class);
@@ -54,15 +49,9 @@ public class KakaoApiService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authorization", "KakaoAK " + key);
         HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
-        URI targetUrl = UriComponentsBuilder
-            .fromUriString(url)
-            .queryParam("category_group_code", "FD6")
-            .queryParam("x", x)
-            .queryParam("y", y)
-            .queryParam("radius", 0.1)
-            .build()
-            .encode(StandardCharsets.UTF_8)
-            .toUri();
+        URI targetUrl = UriComponentsBuilder.fromUriString(url)
+            .queryParam("category_group_code", "FD6").queryParam("x", x).queryParam("y", y)
+            .queryParam("radius", 0.1).build().encode(StandardCharsets.UTF_8).toUri();
 
         ResponseEntity<KakaoApiResponseDto> result = restTemplate.exchange(targetUrl,
             HttpMethod.GET, httpEntity, KakaoApiResponseDto.class);
