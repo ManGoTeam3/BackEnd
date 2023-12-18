@@ -50,6 +50,9 @@ jobs:
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
           spring.auth.clientId: ${{ secrets.AUTH_RESTAPI_KEY }}
           spring.server.ip : ${{ secrets.SERVER_IP }}
+          spring.cloud.aws.bucket : $${{secrets.BUCKET_NAME}}
+          spring.cloud.aws.credentials.accesskey : $${{secrets.ACCESS_KEY}}
+          spring.cloud.aws.credentials.secretkey : $${{secrets.SECRET_KEY}}
           #spring.cloud.gcp.storage.credentials.encoded-key: ${{ secrets.GCP_CREDENTIALS }}
           #spring.cloud.gcp.storage.credentials.location: $${{secrets.GCP_CREDENTIALS_LOCATION}}
 

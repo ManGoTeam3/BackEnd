@@ -28,19 +28,30 @@ spring:
       encoding: UTF-8
   auth:
     clientId: ${CLIENT_ID}
-  cloud:
-    gcp:
-      storage:
-        enabled: true
-        project-id: poetic-inkwell-401203
-        auto-create-files: true
-        credentials:
+
+  #cloud:
+    #gcp:
+      #storage:
+        #enabled: true
+        #project-id: poetic-inkwell-401203
+        #auto-create-files: true
+        #credentials:
           #encoded-key: ${ENCODED_KEY} #보안이슈로 json 파일 base62 인코딩
-          location: poetic-inkwell-401203-8aa220d61f5f.json
+         # location: poetic-inkwell-401203-8aa220d61f5f.json
           #location: "${GCP_CREDENTIALS}"
 
-        bucket: durian-storage
+        #bucket: durian-storage
 
+  cloud:
+    aws:
+      stack:
+        auto: false
+      region:
+        static: ap-northeast-2
+      bucket: ${BUCKET_NAME}
+      credentials:
+        accessKey: ${ACCESS_KEY}
+        secretKey: ${SECRET_KEY}
 
 kakao:
   key: 3b71afcfaf0fe7f58b9e6d71ed96e5de
@@ -56,7 +67,12 @@ jwt:
   secret : 3lXdQ+A7/YyqtnBLngwabsum7YYlqMxOi2CJy/1xsWpptuFUq+3jaA2OAwO1ub2CN97qx8u0hta61QdhtF/R5A==
   expiration : 86400
 
-
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: ERROR
 
 # Swagger springdoc-ui Configuration
 #springdoc:
