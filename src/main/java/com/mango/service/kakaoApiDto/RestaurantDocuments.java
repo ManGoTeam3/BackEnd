@@ -22,10 +22,10 @@ public class RestaurantDocuments {
     private String place_name;
     private String place_url;
     private String road_address_name;
-    public Double x;
-    public Double y;
+    private Double x;
+    private Double y;
 
-    public Restaurant documentsToEntity(){
+    public Restaurant documentsToEntity() {
         return Restaurant.builder()
             .id(this.id)
             .x(this.x)
