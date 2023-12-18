@@ -51,7 +51,7 @@ public class KakaoApiService {
         HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
         URI targetUrl = UriComponentsBuilder.fromUriString(url)
             .queryParam("category_group_code", "FD6").queryParam("x", x).queryParam("y", y)
-            .queryParam("radius", 0.1).build().encode(StandardCharsets.UTF_8).toUri();
+            .queryParam("radius", 1).build().encode(StandardCharsets.UTF_8).toUri();
 
         ResponseEntity<KakaoApiResponseDto> result = restTemplate.exchange(targetUrl,
             HttpMethod.GET, httpEntity, KakaoApiResponseDto.class);
