@@ -46,6 +46,7 @@ public class RestaurantService {
                 .placeName(detailDocuments.getPlace_name())
                 .placeUrl(detailDocuments.getPlace_url())
                 .roadAddressName(detailDocuments.getRoad_address_name())
+                .score(findRestaurant.getScore())
                 .x(detailDocuments.getX())
                 .y(detailDocuments.getY()).build();
         }
@@ -96,7 +97,17 @@ public class RestaurantService {
                 .address_name(r.getAddress_name())
                 .x(r.getX())
                 .y(r.getY())
+//                .score(getScoreIfExists(r.getId()))
                 .build())
             .collect(Collectors.toList());
+    }
+
+    public double getScoreIfExists(long restaurantId){
+        Restaurant temp = restaurantRepository.findById(restaurantId).orElse(null);
+        if(temp == null) {
+            return 0.0;
+        } else {
+            return temp.getScore();
+        }
     }
 }

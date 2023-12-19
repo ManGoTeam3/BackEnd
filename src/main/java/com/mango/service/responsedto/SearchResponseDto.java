@@ -14,4 +14,5 @@ public class SearchResponseDto {
     private String address_name;
     private Double x;
     private Double y;
+    private Double score;
 }
