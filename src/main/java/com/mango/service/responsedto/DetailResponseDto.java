@@ -15,4 +15,5 @@ public class DetailResponseDto {
     private String roadAddressName;
     private Double x;
     private Double y;
+    private Double score;
 }
