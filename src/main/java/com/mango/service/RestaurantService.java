@@ -27,7 +27,7 @@ public class RestaurantService {
             return null;
         } else {
             List<RestaurantDocuments> documents = kakaoApiService.kakaoApiSearchRestaurantByXY(
-                findRestaurant.x, findRestaurant.y).getDocuments();
+                findRestaurant.getX(), findRestaurant.getY()).getDocuments();
 
             for (RestaurantDocuments d : documents) {
                 if (d.getId() == restaurantId) {
