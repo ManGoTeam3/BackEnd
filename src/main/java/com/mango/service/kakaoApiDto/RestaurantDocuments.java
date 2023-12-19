@@ -30,6 +30,7 @@ public class RestaurantDocuments {
             .id(this.id)
             .x(this.x)
             .y(this.y)
+            .score(0.0)
             .build();
     }
 }
