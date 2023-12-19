@@ -16,19 +16,29 @@ import java.util.Map;
 public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-//    public void signUp(String kakaoId, String nickname) {
-//        userRepository.findByKakaoId(Long.valueOf(kakaoId))
-//                .ifPresent(user -> {
-//                    throw new ResponseStatusException(
-//                            HttpStatus.BAD_REQUEST, "이미 존재하는 유저 이름입니다.");
-//                });
-//        User user = User.builder()
-//                .kakaoId(Long.valueOf(kakaoId))
-//                .name(nickname)
-//                .build();
-//        userRepository.save(user);
-//    }
+    // 회원가입
+    public void signUp(String name,String password) {
+        userRepository.findByNameAndPassword(name,password)
+                .ifPresent(user -> {
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "이미 존재하는 유저입니다.");
+                });
+        User user = User.builder()
+                .name(name)
+                .password(password)
+                .build();
+        userRepository.save(user);
+    }
 
+    // 로그인
+    public String login(String username,String password) {
+        User user = userRepository.findByNameAndPassword(username,password)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "존재하지 않는 유저입니다."));
+        return jwtTokenProvider.createToken(String.valueOf(user.getId()));
+    }
+
+    // 카카오 회원가입
     public void serviceSignUp(String kakaoId, String nickname) {
         userRepository.findByKakaoId(Long.valueOf(kakaoId))
                 .ifPresent(user -> {
@@ -42,6 +52,7 @@ public class UserService {
         userRepository.save(user);
         System.out.println("유저 생성 완료"+user.getKakaoId());
     }
+    // 카카오 로그인
     public UserInfoDto serviceLogin(Map<String,?> userInfo) {
 
         String id = userInfo.get("id").toString();

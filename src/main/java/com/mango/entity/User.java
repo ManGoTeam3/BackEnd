@@ -17,10 +17,14 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "kakaoId", nullable = false, unique = true)
+//    @Column(name = "kakaoId", nullable = false, unique = true)
+    @Column(name = "kakaoId",unique = true)
     private Long kakaoId;
     @Column(name = "name")
     private String name;
+    @Column(name = "password")
+    private String password;
+
     //mappedBy 쓸때는 지정한 변수명
     @OneToMany(mappedBy = "user")
     private List<ReviewLike> reviewLikeList;
@@ -30,10 +34,11 @@ public class User implements UserDetails{
 
 
     @Builder
-    public User(Long id, Long kakaoId,String name, List<ReviewLike> reviewLikeList, List<SearchLog> searchLogList) {
+    public User(Long id, Long kakaoId,String name,String password, List<ReviewLike> reviewLikeList, List<SearchLog> searchLogList) {
         this.id = id;
         this.kakaoId = kakaoId;
         this.name = name;
+        this.password = password;
         this.reviewLikeList = reviewLikeList;
         this.searchLogList = searchLogList;
     }
