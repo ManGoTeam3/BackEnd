@@ -28,6 +28,7 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "user")
     private List<SearchLog> searchLogList;
 
+
     @Builder
     public User(Long id, Long kakaoId,String name, List<ReviewLike> reviewLikeList, List<SearchLog> searchLogList) {
         this.id = id;

@@ -7,13 +7,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @RestController
-@CrossOrigin("http://34.83.15.61:3000")
+@CrossOrigin("http://3.217.20.163:3000")
 @RequiredArgsConstructor
 @RequestMapping("/api/restaurants")
 @Tag(name = "Review", description = "리뷰 관련 API")
@@ -25,9 +26,10 @@ public class ReviewController {
             description = "form-data 로 보내야 함. " +
                     "ReviewDto : {'score' : 'true or false', 'reviewContents':'리뷰내용'} " +
                     "reviewPic : (이미지파일)")
-    public ResponseEntity enrollReview(@PathVariable Long restaurantId, @RequestPart(required = false, value = "reviewPic") MultipartFile image,@RequestPart("ReviewDto") ReviewDto reviewDto) throws IOException {
+    public ResponseEntity enrollReview(@PathVariable Long restaurantId, @RequestPart(required = false, value = "reviewPic") MultipartFile image,@RequestPart("ReviewDto") ReviewDto reviewDto, Authentication auth) throws IOException {
+        String userName = auth.getName();
         reviewDto.setReviewPic(image);
-        return reviewService.enrollReview(restaurantId,reviewDto);
+        return reviewService.enrollReview(restaurantId,reviewDto,userName);
     }
     @GetMapping("/review/{restaurantId}")
     @Operation(summary = "리뷰 전체 조회",
