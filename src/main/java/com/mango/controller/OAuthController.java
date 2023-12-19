@@ -38,13 +38,21 @@ public class OAuthController {
     @Value("${spring.server.ip}")
     private String IP;
 
-    @Operation(summary = "카카오 로그인창으로 redirect")
+    @Operation(summary = "카카오 로그인 시작")
     @GetMapping("/kakao/login")
     public ResponseEntity<?> authorize() {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(URI.create(String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=http://%s:8080/auth/kakao/callback", clientId,IP)));
+        httpHeaders.setLocation(URI.create(String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=http://%s:3000/auth/kakao/callback",clientId,IP)));
         return new ResponseEntity<>(httpHeaders, HttpStatus.MOVED_PERMANENTLY);
     }
+    @Operation(summary = "localhost- 카카오 로그인 시작")
+    @GetMapping("/kakao/login/local")
+    public ResponseEntity<?> authorizeLocal() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(URI.create(String.format("https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=http://localhost:3000/auth/kakao/callback",clientId)));
+        return new ResponseEntity<>(httpHeaders, HttpStatus.MOVED_PERMANENTLY);
+    }
+
     @Operation(summary = "카카오 로그인 callback url")
     @GetMapping(("/kakao/callback"))
     public ResponseEntity<?> callback(@RequestParam String code) {
