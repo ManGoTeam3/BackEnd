@@ -18,6 +18,7 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final KakaoApiService kakaoApiService;
+    private final AsyncRestaurantService asyncRestaurantService;
 
     public DetailResponseDto getRestaurantDetail(long restaurantId) {
         Restaurant findRestaurant = restaurantRepository.findById(restaurantId).orElse(null);
@@ -56,7 +57,10 @@ public class RestaurantService {
     public List searchRestaurant(String query) {
         List<RestaurantDocuments> tempList = new ArrayList<>();
 
+
         searchRestaurantMax(tempList, query);
+        asyncRestaurantService.saveRestaurantToDB(tempList);
+
         List<SearchResponseDto> resultList = restaurantDocumentsToSearchResponseDto(
             tempList); //맛집 데이터 목록에 필요한 정보만 가공 후 반환
 
