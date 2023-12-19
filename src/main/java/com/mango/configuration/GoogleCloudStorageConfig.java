@@ -1,5 +1,5 @@
 package com.mango.configuration;
-
+/*
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
@@ -43,6 +43,7 @@ public class GoogleCloudStorageConfig {
                 .getService();
     }
 }
+*/
 
 /**
  *     //@Value("${spring.cloud.gcp.storage.credentials.encoded-key}")

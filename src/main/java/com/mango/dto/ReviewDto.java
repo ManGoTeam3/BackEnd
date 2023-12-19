@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Builder
 public class ReviewDto {
-    private boolean score;
+    private int score;
     private String reviewContents;
     private MultipartFile reviewPic;
 
