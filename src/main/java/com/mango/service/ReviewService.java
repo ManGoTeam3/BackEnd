@@ -54,8 +54,9 @@ public class ReviewService {
     @Value("${spring.cloud.aws.bucket}")
     private String bucket;
 
-    public ResponseEntity enrollReview(Long restaurantId , ReviewDto reviewDto, String userName) throws IOException {
+    public ResponseEntity enrollReview(Long restaurantId , ReviewDto reviewDto) throws IOException {
         String dirName = "durian";
+        String userName = "김두리안";
         String S3Link;
         //restaurantId로 restaurant 찾기
         long reviewId = 0L;

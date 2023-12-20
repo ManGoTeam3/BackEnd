@@ -26,10 +26,10 @@ public class ReviewController {
             description = "form-data 로 보내야 함. " +
                     "ReviewDto : {'score' : 'true or false', 'reviewContents':'리뷰내용'} " +
                     "reviewPic : (이미지파일)")
-    public ResponseEntity enrollReview(@PathVariable Long restaurantId, @RequestPart(required = false, value = "reviewPic") MultipartFile image,@RequestPart("ReviewDto") ReviewDto reviewDto, Authentication auth) throws IOException {
-        String userName = auth.getName();
+    public ResponseEntity enrollReview(@PathVariable Long restaurantId, @RequestPart(required = false, value = "reviewPic") MultipartFile image,@RequestPart("ReviewDto") ReviewDto reviewDto) throws IOException {
+
         reviewDto.setReviewPic(image);
-        return reviewService.enrollReview(restaurantId,reviewDto,userName);
+        return reviewService.enrollReview(restaurantId,reviewDto);
     }
     @GetMapping("/review/{restaurantId}")
     @Operation(summary = "리뷰 전체 조회",
