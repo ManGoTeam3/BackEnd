@@ -37,8 +37,6 @@ public class KakaoApiService {
         ResponseEntity<KakaoApiResponseDto> result = restTemplate.exchange(targetUrl,
             HttpMethod.GET, httpEntity, KakaoApiResponseDto.class);
 
-        //비동기 작업
-        restaurantService.saveRestaurantToDB(result.getBody().getDocuments());
 
         return result.getBody();
     }

@@ -18,6 +18,7 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final KakaoApiService kakaoApiService;
+    private final AsyncRestaurantService asyncRestaurantService;
 
     public DetailResponseDto getRestaurantDetail(long restaurantId) {
         Restaurant findRestaurant = restaurantRepository.findById(restaurantId).orElse(null);
@@ -27,7 +28,7 @@ public class RestaurantService {
             return null;
         } else {
             List<RestaurantDocuments> documents = kakaoApiService.kakaoApiSearchRestaurantByXY(
-                findRestaurant.x, findRestaurant.y).getDocuments();
+                findRestaurant.getX(), findRestaurant.getY()).getDocuments();
 
             for (RestaurantDocuments d : documents) {
                 if (d.getId() == restaurantId) {
@@ -46,6 +47,7 @@ public class RestaurantService {
                 .placeName(detailDocuments.getPlace_name())
                 .placeUrl(detailDocuments.getPlace_url())
                 .roadAddressName(detailDocuments.getRoad_address_name())
+                .score(findRestaurant.getScore())
                 .x(detailDocuments.getX())
                 .y(detailDocuments.getY()).build();
         }
@@ -55,7 +57,10 @@ public class RestaurantService {
     public List searchRestaurant(String query) {
         List<RestaurantDocuments> tempList = new ArrayList<>();
 
+
         searchRestaurantMax(tempList, query);
+        asyncRestaurantService.saveRestaurantToDB(tempList);
+
         List<SearchResponseDto> resultList = restaurantDocumentsToSearchResponseDto(
             tempList); //맛집 데이터 목록에 필요한 정보만 가공 후 반환
 
@@ -96,7 +101,17 @@ public class RestaurantService {
                 .address_name(r.getAddress_name())
                 .x(r.getX())
                 .y(r.getY())
+//                .score(getScoreIfExists(r.getId()))
                 .build())
             .collect(Collectors.toList());
+    }
+
+    public double getScoreIfExists(long restaurantId){
+        Restaurant temp = restaurantRepository.findById(restaurantId).orElse(null);
+        if(temp == null) {
+            return 0.0;
+        } else {
+            return temp.getScore();
+        }
     }
 }

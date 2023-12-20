@@ -20,8 +20,11 @@ public class Restaurant {
     private Long id;
 
     @Column
-    public Double x;
+    private Double x;
 
     @Column
-    public Double y;
+    private Double y;
+
+    @Column
+    private Double score;
 }

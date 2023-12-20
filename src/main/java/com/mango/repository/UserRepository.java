@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface UserRepository  extends JpaRepository<User,Long> {
 //    Optional<User> findByKakaoIdAndPassword(String kakaoId, String password);
     Optional<User> findByKakaoId(Long kakaoId);
+    Optional<User> findByNameAndPassword(String username, String password);
 }
